@@ -51,67 +51,71 @@ btnNavCloseEl.addEventListener("click", function () {
 // Also nice to see how JS controls scrolling
 
 const allLinks = document.querySelectorAll("a:link");
+
 allLinks.forEach(function (link) {
   link.addEventListener("click", function (myEvent) {
-    // every 'click' will send an event to the function as an argument
-
-    // Step-1 : Shutdown the default behaviour
-    //          Now, when you click nothing happens.
-    myEvent.preventDefault();
-
-    // Step-2 : Get the value of the hyper link the curent
-    //          element is pointing to as the scroll target.
     const hlink = link.getAttribute("href");
 
-    // Step-3A : Special case where we want to scroll to
-    //           the top of the page.
-    if (hlink === "#")
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+    // Only prevent default and scroll IF it's an internal link (starts with #)
+    if (hlink && hlink.startsWith("#")) {
+      // Step-1 : Shutdown the default behaviour FOR INTERNAL LINKS ONLY
+      myEvent.preventDefault();
 
-    // Step-3B : Taking care of scrolling for all other
-    // non "#" links.
+      // Step-3A : Scroll to top
+      if (hlink === "#") {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+      // Step-3B : Scroll to other sections
+      else {
+        // hlink starts with # but isn't just #
+        const scrollToSectionEl = document.querySelector(hlink);
+        // Check if the element exists before trying to scroll to it
+        if (scrollToSectionEl) {
+          scrollToSectionEl.scrollIntoView({ behavior: "smooth" });
+        } else {
+          console.warn("Smooth scroll target not found:", hlink);
+        }
+      }
+    } // END of: if (hlink && hlink.startsWith("#"))
 
-    if (hlink !== "#" && hlink.startsWith("#")) {
-      const scrollToSectionEl = document.querySelector(hlink);
-      scrollToSectionEl.scrollIntoView({ behavior: "smooth" });
-    }
-
-    // Step-4 : Closing the mobile-phone menu when scrolling
-    //          In case the link we found is "nav-item" then we
-    //          close the mobile-phone-menu (remove the nav-open)
-    //          class from <header class="shared-header nav-open">
-    if (link.classList.contains("nav-item")) {
+    // Step-4 : Closing the mobile-phone menu (runs regardless of link type)
+    // This can stay outside the 'if' because we want the menu to close
+    // even if we navigate away or click an external link from the menu.
+    if (
+      link.classList.contains("nav-item") &&
+      headerEl.classList.contains("nav-open")
+    ) {
       headerEl.classList.remove("nav-open");
     }
   }); // End of :  link.addEventListener
-
-  //////////////////////////////////////////////////////////////////////
-  // Listening to scroll condition to trigger adding a class to element
-  // In this case we add a class "sticky-nav" that displays the nav bar
-  // only after the hero section is scrolled out of the viewport.
-
-  const bodyEl = document.querySelector("body");
-  const heroEl = document.querySelector(".section-hero");
-
-  const obs = new IntersectionObserver(
-    function (entries) {
-      const ent = entries[0]; //We use the 1st entry of the entries array
-      // console.log(ent);
-      if (ent.isIntersecting) {
-        bodyEl.classList.remove("sticky-nav");
-      } else {
-        bodyEl.classList.add("sticky-nav");
-      }
-    },
-    // Ths is the options object
-    {
-      root: null, //The root reference element, wgen null then defaults to viewport
-      rootMargin: "-80px", // A bias/buffer from the root location (needed to fine tune trigger)
-      threshold: 0, // The condition we wait for is 0% of the observed element is displayed in viewport
-    }
-  );
-  obs.observe(heroEl); //Now using the obs object we observe the hero section element
 }); // End of allLinks.forEach
+
+//////////////////////////////////////////////////////////////////////
+// Listening to scroll condition to trigger adding a class to element
+// In this case we add a class "sticky-nav" that displays the nav bar
+// only after the hero section is scrolled out of the viewport.
+
+const bodyEl = document.querySelector("body");
+const heroEl = document.querySelector(".section-hero");
+
+const obs = new IntersectionObserver(
+  function (entries) {
+    const ent = entries[0]; //We use the 1st entry of the entries array
+    // console.log(ent);
+    if (ent.isIntersecting) {
+      bodyEl.classList.remove("sticky-nav");
+    } else {
+      bodyEl.classList.add("sticky-nav");
+    }
+  },
+  // Ths is the options object
+  {
+    root: null, //The root reference element, wgen null then defaults to viewport
+    rootMargin: "-80px", // A bias/buffer from the root location (needed to fine tune trigger)
+    threshold: 0, // The condition we wait for is 0% of the observed element is displayed in viewport
+  }
+);
+obs.observe(heroEl); //Now using the obs object we observe the hero section element
