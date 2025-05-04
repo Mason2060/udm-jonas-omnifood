@@ -1,0 +1,112 @@
+/* css/privacy_policy.css */
+
+/* Inspired by system-design.css 
+Primary: #e67e22
+Tints: #fdf2e9, #fae5d3
+Shades: #cf711f, #45260a
+Grays: #555, #333, #6f6f6f 
+Spacing: 2, 4, 8, 12, 16, 24, 32, 48, 64, 80, 96, 128 (px)
+Font Sizes: 10, 12, 14, 16, 18, 20, 24, 30, 36, 44, 52... (px)
+Line Heights: 1, 1.05, 1.2, 1.6
+Shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075); (Adjusted)
+Border Radius: 9px
+*/
+
+/* Basic Resets & Defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Set base font size for rem units (assuming 1rem = 10px) */
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* Fallback font */
+  /* Consider linking the Google Font used in index.html if applicable */
+  /* font-family: 'Rubik', sans-serif; */
+  color: #555; /* Default gray text */
+  background-color: #fdf2e9; /* Light tint background */
+  line-height: 1; /* Default line height */
+  padding: 3.2rem; /* Add some padding around the container */
+}
+
+/* Container for the policy content */
+.policy-container {
+  max-width: 80rem; /* Approx A4 width, adjust as needed (800px) */
+  margin: 3.2rem auto; /* Centering with top/bottom margin */
+  padding: 4.8rem; /* Internal spacing */
+  background-color: #fff; /* White background for the paper effect */
+  border: 1px solid #fae5d3; /* Thin border using a light tint */
+  border-radius: 9px; /* Default border radius */
+  box-shadow: 0 1.2rem 3.2rem rgba(0, 0, 0, 0.06); /* Softer shadow */
+}
+
+/* Headings */
+.policy-container h2 {
+  font-size: 3rem; /* Adjusted size from system */
+  color: #333; /* Darker gray */
+  margin-bottom: 2.4rem;
+  font-weight: 600; /* Semi-bold */
+  line-height: 1.2;
+}
+
+/* Paragraphs */
+.policy-container p {
+  font-size: 1.6rem; /* Standard paragraph size */
+  line-height: 1.6; /* Standard paragraph line height */
+  margin-bottom: 1.6rem;
+}
+
+/* Strong/Bold text */
+.policy-container strong {
+  font-weight: 600; /* Semi-bold */
+  color: #333;
+}
+
+/* Lists */
+.policy-container ul {
+  margin-left: 3.2rem; /* Indentation for lists */
+  margin-bottom: 1.6rem;
+}
+
+.policy-container li {
+  font-size: 1.6rem;
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+}
+
+/* Links within the policy */
+.policy-container a {
+  color: #e67e22; /* Primary color */
+  text-decoration: none;
+  font-weight: 500; /* Medium weight */
+  border-bottom: 1px solid currentColor;
+  transition: all 0.3s;
+}
+
+.policy-container a:hover,
+.policy-container a:active {
+  color: #cf711f; /* Shade color */
+  border-bottom: 1px solid transparent;
+}
+
+/* Back to Home Link Styling */
+.back-link {
+  display: block; /* Make it a block to control width/margin */
+  max-width: 80rem; /* Match container width */
+  margin: 0 auto 3.2rem auto; /* Center above container */
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #cf711f; /* Shade color for distinction */
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.back-link:hover,
+.back-link:active {
+  color: #45260a; /* Darker shade */
+}
